@@ -4,15 +4,22 @@ const sequelize = new Sequelize('sqlite::memory:');
 const User = sequelize.define('User', {
   // Model attributes are defined here
   firstName: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: false
   },
   lastName: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING(30)
     // allowNull defaults to true
   },
   age: {
-    type: DataTypes.NUMBER
+    type: DataTypes.NUMBER(3)
+  },
+  price: {
+    type: DataTypes.NUMBER(15),
+    allowNull: true
+  }, 
+  duedate: {
+    type: DataTypes.STRING(15),
   }
   
 }, {

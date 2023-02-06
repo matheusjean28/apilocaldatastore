@@ -13,7 +13,7 @@ const testeConection = async () => {
       
     }
     catch (error) {
-      console.error(error.message);
+      //console.error(error.message);
       process.exit(-1);
     }
 }; testeConection()
