@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../dbconfig/databaseModel/userDbModel')
+const userControler = require('../controler/userControler')
 
-router.get("/api",  async (req,res)=> {
+router.get("/api",userControler , async (req,res)=> {
     const getAllUser = await User.findAll()
     res.status(200).json(getAllUser)
 })
 
-router.post('/api/create', async (req, res) => {
+router.post('/api/create', userControler, async (req, res) => {
     const {firstName, lastName,price, duedate} = req.body;
     try {
         const usuario = await User.create({
@@ -22,7 +23,6 @@ router.post('/api/create', async (req, res) => {
     /*const newuser = await User.create({
         firstName:'asdfas'
       })*/
-
 
 })
 
