@@ -1,15 +1,9 @@
-const express =require('express')
+const express = require("express");
 
-const validateInput = function(req, res, next){
-   console.log('teste')
-    const {firstName, lastName, price, duedate} = req.body;
-
-    if(firstName || lastName || price || duedate == null){
-     return res.status(400).json({message: 'filds not be empyt'})    
-    } {
-        next()
-    }
-   next();
-}
-
+const validateInput = function (req, res, next) {
+  console.log();
+  const { firstName, lastName, age, price } = req.body;
+  console.log(firstName, lastName, age, price)
+  next();
+};
 module.exports = validateInput;

@@ -20,6 +20,9 @@ const User = sequelize.define('User', {
   }, 
   duedate: {
     type: DataTypes.STRING(15),
+  },
+  status: {
+    type: DataTypes.BOOLEAN
   }
   
 }, {
