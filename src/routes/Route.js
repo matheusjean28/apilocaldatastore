@@ -1,14 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../dbconfig/databaseModel/userDbModel");
-const userControler = require("../controler/userControler");
+const validateInput = require("../controler/validateInput");
 
-router.get("/api", userControler, async (req, res) => {
+
+//create a middleware that checks if the user is logged in or has a valid token
+router.get("/api", validateInput, async (req, res) => {
   const getAllUser = await User.findAll();
   res.status(200).json(getAllUser);
 });
 
-router.post("/api/create", userControler, async (req, res) => {
+
+
+router.post("/api/create", validateInput, async (req, res) => {
   const { firstName, lastName, price, duedate, status } = req.body;
   try {
     const usuario = await User.create({
@@ -22,11 +26,13 @@ router.post("/api/create", userControler, async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+  
   console.log(`${(firstName, lastName, price, status, duedate)}`);
+
   /*your acount has been created \n , ${firstName} is your username!...*/
-  return res.send(
-      `${firstName }, ${lastName },${price }, ${duedate }, ${status} `
-  );
+  return res.json({"Your acount has been created!, your username is: ":`${firstName} !` ,
+    "your username": firstName
+  }).send();
   /*const newuser = await User.create({
         firstName:'asdfas'
       })*/
