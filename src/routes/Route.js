@@ -1,41 +1,58 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../dbconfig/databaseModel/userDbModel");
-const validateInput = require("../controler/validateInput");
+const userControler = require("../controler/userControler");
+const payControler = require("../controler/payControler");
+const getPaymentUserControler = require("../controler/getPaymentUserControler");
+const Payment = require("../dbconfig/databaseModel/PaymentModel");
 
 
-//create a middleware that checks if the user is logged in or has a valid token
-router.get("/api", validateInput, async (req, res) => {
+//get all users in database ** only can be used by admins acounts.
+router.get("/api", async (req, res) => {
   const getAllUser = await User.findAll();
   res.status(200).json(getAllUser);
 });
 
-
-
-router.post("/api/create", validateInput, async (req, res) => {
-  const { firstName, lastName, price, duedate, status } = req.body;
+//create a new user acount 
+router.post("/api/create", userControler, async (req, res) => {
+  const { firstName, lastName, status } = req.body;
   try {
     const usuario = await User.create({
       firstName,
       lastName,
-      price,
-      duedate,
+      status,
     });
     await usuario.save();
-    console.log(`${firstName} has been created with success"""`);
   } catch (error) {
     console.log(error);
   }
-  
-  console.log(`${(firstName, lastName, price, status, duedate)}`);
-
-  /*your acount has been created \n , ${firstName} is your username!...*/
-  return res.json({"Your acount has been created!, your username is: ":`${firstName} !` ,
-    "your username": firstName
-  }).send();
-  /*const newuser = await User.create({
-        firstName:'asdfas'
-      })*/
+  return res.send(`${firstName}, ${lastName}, ${status} `);
 });
+
+
+//get all payment related into a user
+router.get("/api/:id",getPaymentUserControler, async (req, res) => {
+  const getAllUser = await Payment.findAll();
+  res.status(200).json(getAllUser);
+});
+
+
+//create new payment in database
+//obs: can make a functions that make it and return all formated
+router.post("/api/paycreate", payControler, async (req, res) => {
+  const { firstName, lastName, status } = req.body;
+  try {
+    const usuario = await User.create({
+      firstName,
+      lastName,
+      status,
+    });
+    await usuario.save();
+  } catch (error) {
+    console.log(error);
+  }
+  return res.send(`${firstName}, ${lastName}, ${status} `);
+});
+
 
 module.exports = router;
